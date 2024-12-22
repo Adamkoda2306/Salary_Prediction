@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        // Clear the prediction text after 1 minute
+        function clearPrediction() {
+            setTimeout(() => {
+                const predictionElement = document.getElementById("prediction-text");
+                if (predictionElement) {
+                    predictionElement.textContent = "";
+                }
+            }, 60000); // 60000ms = 1 minute
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Predict the Salary</h1>
+        
+        <form method="POST" action="/predict" onsubmit="clearPrediction()">
+            <label for="experience">Years of Experience:</label>
+            <input type="number" name="experience" id="experience" required step="any" placeholder="Enter years of experience">
+            <br><br>
+            <button type="submit">Predict</button>
+        </form>
+        
+        {% if prediction_text %}
+            <h3 id="prediction-text">{{ prediction_text }}</h3>
+            <script>
+                clearPrediction(); // Call the function after rendering
+            </script>
+        {% endif %}
+    </div>
+</body>
+</html>
